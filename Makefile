@@ -1,15 +1,17 @@
-.PHONY: comp run
+.PHONY: comp run clean
 
 
-CPPFLAGS=-O0 -g3
+CPPFLAGS=-std=c++11  -O0 -g3
 
 TARGET=prog
+
+
 SRC=prog.cpp
 
 run: comp
 	./$(TARGET)
 
-comp: prog
+comp: $(TARGET)
 
-$(TERGET): $(SRC)
-	g++ $< -o $@ $(CPPFLAGS)
+clean:
+	rm -f *.o prog
