@@ -1,6 +1,7 @@
 #include "iostream"
 #include "stdio.h"
 #include <stdlib.h>
+#include <assert.h>     /* assert */
 #include <vector>
 #include <map>
 #include <csignal>
@@ -35,7 +36,7 @@ public:
   void add(int a, int b);
   void clear();
   void printSolution();
-  Rest();
+  Rest(int size);
   ~Rest();
 
 }; // struct a_s {...};    struct a_s a; typedef struct a_s a_t; a_t a;
@@ -51,7 +52,8 @@ state_t operator ++(state_t &s, int) {
   return ( prev_s );
 }
 
-Rest::Rest() {
+Rest::Rest(int size) {
+  this->size = size;
   m = new multimap<int, int>();
 }
 
@@ -68,7 +70,6 @@ Rest::~Rest() {
 void Rest::add(int a, int b) {
   m->insert(pair<int,int>(a, b));
   m->insert(pair<int,int>(b, a));
-  size++;
 }
 
 /*
@@ -84,7 +85,7 @@ typedef multimap<int,int>::iterator int_i_t;
 bool Rest::csp(int n, state_t p) {
   state_t c=none;
 
-  for (c=none; c<MAX; c++) {
+  for (c=empty; c<MAX; c++) {
     if (n==c) continue; //
 
     pair<int_i_t,int_i_t> it = m->equal_range(n);
@@ -113,19 +114,25 @@ void Rest::clear() {
 
 void Rest::printSolution(){
   cout << "Printing a solution" << NL;
+  assert(s!=NULL);
+  int idx=0;
+  for (state_t &i: *s) {
+    cout << "[" << idx << "]=" << i << NL;
+    idx++;
+  }
 }
 
 // ------------------------------------------
 
 
 int main(int argc, char ** argv) {
-  Rest rest;
+  Rest rest(3);
 
   cout << "\n-------------------------------\n";
 
   // rest.setLen(3);
+  rest.add(0,1);
   rest.add(1,2);
-  rest.add(2,3);
 
   rest.clear();
 
